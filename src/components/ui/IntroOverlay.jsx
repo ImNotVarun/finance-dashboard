@@ -22,23 +22,21 @@ export default function IntroOverlay({ onFinish, accent, theme }) {
     // Refined Glassmorphism card styles
     const islandStyle = {
         background: theme === 'dark'
-            ? 'rgba(255, 255, 255, 0.03)' // Very subtle dark glass
-            : 'rgba(255, 255, 255, 0.3)',  // Transparent light glass
-        backdropFilter: 'blur(30px) saturate(180%)', // Increased blur and saturation for better glass effect
-        WebkitBackdropFilter: 'blur(30px) saturate(180%)', // For Safari
+            ? 'rgba(255, 255, 255, 0.03)'
+            : 'rgba(255, 255, 255, 0.3)',
+        backdropFilter: 'blur(30px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(30px) saturate(180%)',
         border: theme === 'dark'
             ? '1px solid rgba(255, 255, 255, 0.08)'
-            : '1px solid rgba(255, 255, 255, 0.2)', // Brighter border for glass definition
+            : '1px solid rgba(255, 255, 255, 0.2)',
         boxShadow: theme === 'dark'
             ? '0 20px 60px rgba(0, 0, 0, 0.5)'
             : '0 20px 60px rgba(0, 0, 0, 0.15)',
     };
 
     return (
-        // Added the Purple Background style to the parent container
         <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden" style={{ background: appBackground }}>
 
-            {/* Added the heavy backdrop blur layer behind the card, matching the dashboard */}
             <div className="fixed inset-0 backdrop-blur-[120px] pointer-events-none z-0" />
 
             {/* THE SWEEP ANIMATION */}
@@ -52,7 +50,7 @@ export default function IntroOverlay({ onFinish, accent, theme }) {
                 />
             )}
 
-            {/* DARK BACKDROP MASK (Fades when sweep starts) */}
+            {/* DARK BACKDROP MASK */}
             <div
                 className="absolute inset-0 z-10 bg-black/30"
                 style={{

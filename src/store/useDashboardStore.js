@@ -19,7 +19,7 @@ export const ACCENTS = {
 
 export const useDashboardStore = create((set) => ({
     role: 'viewer',
-    theme: 'dark', // 'dark' | 'light'
+    theme: 'dark',
     transactions: [],
 
     page: 'home',

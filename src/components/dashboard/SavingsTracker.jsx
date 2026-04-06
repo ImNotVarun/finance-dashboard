@@ -3,7 +3,6 @@ import { useDashboardStore, ACCENTS } from '../../store/useDashboardStore';
 import { Target, TrendingUp, Laptop, Car, Home, Inbox } from 'lucide-react';
 import { SAVINGS_GOALS } from '../../data/mockTransactions';
 
-// Icon configuration mapping
 const GOAL_CONFIG = {
     "MacBook Pro": { Icon: Laptop, color: '#A2A2A2' },
     "New Car": { Icon: Car, color: '#FF6F61' },
@@ -24,7 +23,6 @@ export default function SavingsTracker() {
     const isDark = theme === 'dark';
     const accent = ACCENTS[role] || { hex: '#10b981', gradient: 'linear-gradient(to right, #10b981, #3b82f6)' };
 
-    // Use the imported data directly
     const savingsData = SAVINGS_GOALS || [];
     const hasData = savingsData.length > 0;
 
@@ -60,12 +58,10 @@ export default function SavingsTracker() {
             <div className="flex flex-col gap-2">
                 {hasData ? (
                     savingsData.map((goal, index) => {
-                        // Calculate progress safely
                         const goalVal = goal.goal || 1;
                         const savedVal = goal.saved || 0;
                         const progressPercent = Math.min(100, (savedVal / goalVal) * 100);
 
-                        // Find the icon and color from the config mapping
                         const config = GOAL_CONFIG[goal.name] || { Icon: Target, color: '#94a3b8' };
                         const Icon = config.Icon;
 

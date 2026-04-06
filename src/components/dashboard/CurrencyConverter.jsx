@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeftRight, DollarSign, IndianRupee } from 'lucide-react';
 import { useDashboardStore, ACCENTS } from '../../store/useDashboardStore';
 
@@ -12,12 +13,11 @@ export default function CurrencyConverter() {
     const accent = ACCENTS[role];
     const isDark = theme === 'dark';
 
-    const [amount, setAmount] = useState(500);
+    const [amount, setAmount] = useState(1);
     const [fromCur, setFromCur] = useState('USD');
     const [toCur, setToCur] = useState('INR');
     const [convertedAmount, setConvertedAmount] = useState(0);
     const [isSwapping, setIsSwapping] = useState(false);
-    const [isFocused, setIsFocused] = useState(false);
 
     useEffect(() => {
         const fromRate = CURRENCIES[fromCur].rate;
@@ -34,7 +34,10 @@ export default function CurrencyConverter() {
     };
 
     return (
-        <div className="w-full p-6 rounded-[32px] relative overflow-hidden transition-all duration-500"
+        <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="w-full p-6 rounded-[32px] relative overflow-hidden transition-all duration-500"
             style={{
                 background: isDark ? '#121218' : '#ffffff',
                 boxShadow: isDark ? '0 20px 50px rgba(0,0,0,0.4)' : '0 20px 40px rgba(0,0,0,0.1)'
@@ -43,13 +46,17 @@ export default function CurrencyConverter() {
             <div className="relative flex flex-col gap-1.5">
 
                 {/* INPUT BOX (Top) */}
-                <div
-                    className="p-6 rounded-[24px] transition-all duration-300 border"
+                <motion.div
+                    className="p-6 rounded-[24px] border z-0"
+                    whileHover={{
+                        scale: 1.01,
+                        borderColor: accent.hex,
+                        boxShadow: `0 0 25px rgba(${accent.rgb}, 0.25)`
+                    }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     style={{
                         background: isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)',
-                        borderColor: isFocused ? accent.hex : (isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)'),
-                        boxShadow: isFocused ? `0 0 25px rgba(${accent.rgb}, 0.25)` : 'none',
-                        transform: isFocused ? 'scale(1.01)' : 'scale(1)'
+                        borderColor: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)',
                     }}
                 >
                     <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-3">
@@ -57,49 +64,51 @@ export default function CurrencyConverter() {
                     </label>
                     <div className="flex justify-between items-center">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-white/5" style={{ color: accent.hex }}>
+                            <motion.div
+                                key={fromCur}
+                                initial={{ rotateY: 90 }}
+                                animate={{ rotateY: 0 }}
+                                className="w-10 h-10 rounded-2xl flex items-center justify-center bg-white/5"
+                                style={{ color: accent.hex }}
+                            >
                                 {CURRENCIES[fromCur].icon}
-                            </div>
+                            </motion.div>
                             <span className="font-bold text-xl">{fromCur}</span>
                         </div>
 
                         <input
                             type="number"
                             value={amount}
-                            onFocus={() => setIsFocused(true)}
-                            onBlur={() => setIsFocused(false)}
                             onChange={(e) => setAmount(e.target.value)}
-                            /* [appearance:textfield] removes arrows in Firefox 
-                               [&::-webkit-inner-spin-button]:appearance-none removes arrows in Chrome/Safari 
-                            */
                             className="bg-transparent text-right text-3xl font-semibold outline-none w-1/2 cursor-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                             style={{ color: isDark ? '#fff' : '#000' }}
                         />
                     </div>
-                </div>
+                </motion.div>
 
-                {/* VERTICAL SWAP BUTTON - Now using Accent Color */}
-                <button
+                {/* VERTICAL SWAP BUTTON */}
+                <motion.button
                     onClick={handleSwap}
-                    className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 hover:scale-110 active:scale-95"
+                    whileHover={{ scale: 1.2, rotate: isSwapping ? 360 : 90 }}
+                    whileTap={{ scale: 0.9 }}
+                    animate={{ rotate: isSwapping ? 360 : 90 }}
+                    className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-colors duration-300"
                     style={{
-                        background: accent.hex, // Switched from green to dynamic accent
+                        background: accent.hex,
                         color: '#fff',
                         border: isDark ? '4px solid #121218' : '4px solid #fff',
-                        boxShadow: `0 8px 20px rgba(${accent.rgb}, 0.4)`, // Added accent glow to the button
-                        transform: `translate(-50%, -50%) rotate(${isSwapping ? '270deg' : '90deg'})`
+                        boxShadow: `0 8px 20px rgba(${accent.rgb}, 0.4)`,
                     }}
                 >
                     <ArrowLeftRight size={20} />
-                </button>
+                </motion.button>
 
                 {/* OUTPUT BOX (Bottom) */}
                 <div
-                    className="p-6 rounded-[24px] border transition-all duration-300"
+                    className="p-6 rounded-[24px] border"
                     style={{
                         background: isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)',
                         borderColor: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)',
-                        opacity: isFocused ? 0.6 : 1
                     }}
                 >
                     <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-3">
@@ -107,21 +116,36 @@ export default function CurrencyConverter() {
                     </label>
                     <div className="flex justify-between items-center">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-white/5" style={{ color: accent.hex }}>
+                            <motion.div
+                                key={toCur}
+                                initial={{ rotateY: 90 }}
+                                animate={{ rotateY: 0 }}
+                                className="w-10 h-10 rounded-2xl flex items-center justify-center bg-white/5"
+                                style={{ color: accent.hex }}
+                            >
                                 {CURRENCIES[toCur].icon}
-                            </div>
+                            </motion.div>
                             <span className="font-bold text-xl">{toCur}</span>
                         </div>
-                        <div className="text-right text-3xl font-semibold opacity-90">
-                            {new Intl.NumberFormat('en-IN').format(convertedAmount)}
-                        </div>
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={convertedAmount}
+                                initial={{ opacity: 0, y: 5 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="text-right text-3xl font-semibold opacity-90"
+                            >
+                                {new Intl.NumberFormat('en-IN').format(convertedAmount)}
+                            </motion.div>
+                        </AnimatePresence>
                     </div>
                 </div>
             </div>
 
             {/* ACTION BUTTON */}
-            <button
-                className="w-full mt-6 py-4 rounded-2xl font-bold text-lg transition-all active:scale-[0.98]"
+            <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full mt-6 py-4 rounded-2xl font-bold text-lg"
                 style={{
                     background: isDark ? '#fff' : '#000',
                     color: isDark ? '#000' : '#fff',
@@ -129,10 +153,11 @@ export default function CurrencyConverter() {
                 }}
             >
                 Confirm Exchange
-            </button>
+            </motion.button>
+
             <p className="text-center text-[10px] mt-4 text-slate-500 uppercase tracking-widest font-bold opacity-60">
-                Live Rate: 1 {fromCur} = {(convertedAmount / amount).toFixed(4)} {toCur}
+                Live Rate: 1 {fromCur} = {(convertedAmount / (amount || 1)).toFixed(4)} {toCur}
             </p>
-        </div>
+        </motion.div>
     );
 }

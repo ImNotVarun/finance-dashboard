@@ -65,7 +65,7 @@ export default function Notifications() {
                                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
                                 viewport={{ once: false, margin: "-50px" }}
                                 transition={{
-                                    duration: 0.5,
+                                    duration: 0.3,
                                     delay: index * 0.01,
                                     ease: "easeOut"
                                 }}
@@ -153,7 +153,7 @@ export default function Notifications() {
                                     exit={{ opacity: 0, x: 20, scale: 0.95, filter: 'blur(4px)' }}
                                     viewport={{ once: false, margin: "-50px" }}
                                     transition={{
-                                        duration: 0.5,
+                                        duration: 0.3,
                                         delay: index * 0.01,
                                         ease: "easeOut"
                                     }}

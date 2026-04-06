@@ -9,7 +9,7 @@ const navItems = [
 ];
 
 export default function Sidebar() {
-    const { role, theme, page, setPage } = useDashboardStore(); // ✅ use global state
+    const { role, theme, page, setPage } = useDashboardStore();
     const active = page;
     const accent = ACCENTS[role];
 
@@ -37,9 +37,9 @@ export default function Sidebar() {
         return (
             <button
                 key={id}
-                onClick={() => setPage(id)} // ✅ IMPORTANT CHANGE
+                onClick={() => setPage(id)}
                 className="relative flex items-center justify-center rounded-3xl transition-all duration-200 group
-                           w-14 h-14 md:w-16 md:h-16 lg:w-[3.5rem] lg:h-[3.5rem]"
+                           w-14 h-14 lg:w-[3.5rem] lg:h-[3.5rem]"
                 style={isActive ? activeStyle : {}}
             >
                 {isActive && (
@@ -65,18 +65,19 @@ export default function Sidebar() {
 
     return (
         <>
-            <div className="hidden md:flex fixed left-5 top-1/2 -translate-y-1/2 z-50 flex-col gap-4">
+            {/*  Desktop sidebar */}
+            <div className="hidden xl:flex fixed left-5 top-1/2 -translate-y-1/2 z-50 flex-col gap-4">
                 <div className="flex flex-col items-center gap-2 py-4 px-3 rounded-[2.5rem]" style={islandStyle}>
                     {navItems.map(({ icon: Icon, id }) => renderBtn(id, Icon))}
                 </div>
-
                 <div className="flex flex-col items-center py-4 px-3 rounded-[2.5rem]" style={islandStyle}>
                     {renderBtn('settings', Settings)}
                 </div>
             </div>
 
+            {/* Bottom nav*/}
             <div
-                className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50
+                className="xl:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50
                            flex items-center gap-2 px-4 py-3 rounded-[2.5rem]"
                 style={islandStyle}
             >

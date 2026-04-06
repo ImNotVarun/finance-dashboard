@@ -21,17 +21,11 @@ function App() {
   const [transition, setTransition] = useState(null);
   const [showIntro, setShowIntro] = useState(true);
 
-  // --- FIX: SCROLL TO TOP ON PAGE CHANGE ---
   useEffect(() => {
-    // Reset window scroll
     window.scrollTo(0, 0);
-
-    // Reset specific main container scroll if it exists
     const mainContent = document.querySelector('main');
-    if (mainContent) {
-      mainContent.scrollTop = 0;
-    }
-  }, [page]); // Runs every time 'page' state changes
+    if (mainContent) mainContent.scrollTop = 0;
+  }, [page]);
 
   const triggerRoleChange = (newRole) => {
     if (newRole === role) return;
@@ -59,20 +53,29 @@ function App() {
       case 'dashboard':
       default:
         return (
-          <div className="flex flex-col xl:flex-row items-start justify-center gap-6 xl:gap-3 w-full max-w-full mx-auto py-0 px-2 md:px-4">
+          <div className="flex flex-col xl:flex-row items-start justify-center gap-6 xl:gap-3 w-full max-w-full mx-auto py-0 px-2 xl:px-4">
+
+            {/* Left Column - Balance Card */}
             <div className="w-full xl:w-[30%] xl:sticky xl:top-9">
               <BalanceCard />
             </div>
+
+            {/* Right Column - Charts */}
             <div className="w-full xl:w-[70%] flex flex-col gap-4 xl:gap-2">
-              <div className="flex flex-col md:flex-row gap-4 md:gap-3 items-start md:ml-6 -mt-3">
-                <div className="w-full md:flex-1"><RevenueExpensesChart /></div>
-                <div className="w-full md:flex-1"><SpendingsChart /></div>
-                <div className="w-full md:flex-1 md:min-w-[280px] md:mt-6 md:mr-9"><SavingsTracker /></div>
+
+              {/* Charts Row — stacked on mobile/tablet, row only on desktop */}
+              <div className="flex flex-col xl:flex-row gap-4 xl:gap-3 items-start xl:ml-6 -mt-3">
+                <div className="w-full xl:flex-1"><RevenueExpensesChart /></div>
+                <div className="w-full xl:flex-1"><SpendingsChart /></div>
+                <div className="w-full xl:flex-1 xl:min-w-[280px] xl:mt-6 xl:mr-9"><SavingsTracker /></div>
               </div>
-              <div className="flex flex-col md:flex-row items-start gap-4 md:gap-3 md:ml-6 md:mr-9">
-                <div className="w-full lg:w-[65%] mt-0 lg:-mt-6"><StocksChart /></div>
-                <div className="w-full md:w-[35%] md:mt-[-80px] mt-0 md:ml-5"><QuickTransfer /></div>
+
+              {/* Stocks + Quick Transfer — stacked on mobile/tablet, row only on desktop */}
+              <div className="flex flex-col xl:flex-row items-start gap-4 xl:gap-3 xl:ml-6 xl:mr-9">
+                <div className="w-full xl:w-[65%] xl:-mt-4"><StocksChart /></div>
+                <div className="w-full xl:w-[35%] mt-0 xl:mt-[-80px] xl:ml-5"><QuickTransfer /></div>
               </div>
+
             </div>
           </div>
         );
@@ -95,10 +98,8 @@ function App() {
     <div className="min-h-screen flex flex-col transition-all duration-500 relative"
       style={{ background, color: theme === 'dark' ? '#fff' : '#0f172a' }}>
 
-      {/* Glassmorphism Background Blur */}
       <div className="fixed inset-0 backdrop-blur-[120px] pointer-events-none z-0" />
 
-      {/* Role Transition Sweep Effect */}
       {transition && (
         <div className="fixed inset-0 z-[9999] pointer-events-none"
           style={{
@@ -110,11 +111,9 @@ function App() {
 
       <Sidebar />
 
-      <div className="relative z-10 flex flex-col flex-1 pb-28 md:pb-0 md:pl-28">
+      <div className="relative z-10 flex flex-col flex-1 pb-28 xl:pb-0 xl:pl-28">
         <Topbar onRoleChange={triggerRoleChange} />
-
-        {/* Main Content Area */}
-        <main className="flex-1 px-2 md:px-4 pt-1 pb-2 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 px-2 xl:px-4 pt-1 pb-2 overflow-y-auto overflow-x-hidden">
           <div key={page} className="page-anim w-full">
             {renderPage()}
           </div>

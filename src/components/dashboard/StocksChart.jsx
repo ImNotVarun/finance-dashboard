@@ -133,7 +133,7 @@ export default function StocksChart() {
                                     fill="url(#gradIBM)"
                                     strokeWidth={2}
                                     isAnimationActive={true}
-                                    animationDuration={1500}
+                                    animationDuration={2500}
                                     animationEasing="ease-in-out"
                                 />
                                 <Area
@@ -143,7 +143,7 @@ export default function StocksChart() {
                                     fill="url(#gradApple)"
                                     strokeWidth={3}
                                     isAnimationActive={true}
-                                    animationBegin={300} // Starts 300ms after the first line
+                                    animationBegin={300}
                                     animationDuration={2000}
                                     animationEasing="ease-out"
                                 />

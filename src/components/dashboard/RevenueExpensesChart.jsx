@@ -6,7 +6,6 @@ import { getRevenueData } from '../../data/mockTransactions';
 
 export default function RevenueExpensesChart() {
     const { theme, role } = useDashboardStore();
-    // 1. Set Monthly as main choice
     const [view, setView] = useState('Monthly');
     const [showDropdown, setShowDropdown] = useState(false);
     const isDark = theme === 'dark';
@@ -19,7 +18,6 @@ export default function RevenueExpensesChart() {
     };
     const expenseColor = getExpenseColor();
 
-    // Dynamic totals based on data
     const totalIncome = data.reduce((sum, item) => sum + item.revenue, 0);
     const totalPaid = data.reduce((sum, item) => sum + Math.abs(item.expenses), 0);
 
@@ -78,7 +76,6 @@ export default function RevenueExpensesChart() {
                                     <YAxis hide domain={['auto', 'auto']} />
                                     <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '16px', backgroundColor: isDark ? '#1e1e26' : '#fff', border: 'none' }} />
 
-                                    {/* Aligned Bars using stackId="a" */}
                                     <Bar
                                         dataKey="revenue"
                                         stackId="a"
@@ -94,7 +91,6 @@ export default function RevenueExpensesChart() {
                                         barSize={24}
                                     />
 
-                                    {/* Optional: A subtle line at 0 to separate them clearly */}
                                     <ReferenceLine y={0} stroke={isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"} />
                                 </BarChart>
                             </ResponsiveContainer>

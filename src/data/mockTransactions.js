@@ -121,7 +121,6 @@ export const fetchYahooStockData = async (symbol) => {
             const timestamps = result.timestamp;
             const prices = result.indicators.quote[0].close;
 
-            // Map into { date: 'YYYY-MM-DD', value: price }
             return timestamps.map((ts, i) => ({
                 date: new Date(ts * 1000).toISOString().split('T')[0],
                 value: prices[i] ? parseFloat(prices[i].toFixed(2)) : null

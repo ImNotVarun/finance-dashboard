@@ -12,7 +12,7 @@ export default function RoleSwitcher({ onRoleChange }) {
                 return (
                     <button
                         key={r}
-                        onClick={() => onRoleChange(r)} // ✅ FIXED
+                        onClick={() => onRoleChange(r)}
                         className="px-5 py-2.5 rounded-[1.5rem] text-sm font-medium transition-all duration-200 capitalize active:scale-95"
                         style={isActive ? {
                             background: `linear-gradient(135deg, rgba(${accent.rgb},0.28), rgba(${accent.rgb},0.15))`,

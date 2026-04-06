@@ -28,7 +28,7 @@ export default function EMIGauge() {
 
     const chartData = [
         { name: 'Paid', value: data.amountPaid || 0 },
-        { name: 'Remaining', value: hasData ? remainingAmount : 1 }, // Show full gray circle if no data
+        { name: 'Remaining', value: hasData ? remainingAmount : 1 },
     ];
 
     const formatINR = (val) => {
@@ -38,7 +38,6 @@ export default function EMIGauge() {
     };
 
     return (
-        /* Changed max-w-sm to max-w-full to let it grow, but kept a cap on desktop with lg:max-w-md */
         <div className="w-full h-full max-w-full lg:max-w-md mx-auto p-2 sm:p-4 transition-all duration-300">
             <div
                 className="flex flex-col relative rounded-[40px] overflow-hidden transition-all duration-500 shadow-2xl"
@@ -46,7 +45,7 @@ export default function EMIGauge() {
                     background: isDark ? '#121218' : '#FFFFFF',
                     boxShadow: isDark ? '0 20px 40px rgba(0,0,0,0.4)' : '0 10px 30px rgba(0,0,0,0.04)',
                     minHeight: '520px',
-                    width: '100%' // Ensure inner div takes full width of the max-w container
+                    width: '100%'
                 }}
             >
                 {/* --- HEADER --- */}
@@ -68,7 +67,6 @@ export default function EMIGauge() {
                 </div>
 
                 {/* --- GAUGE AREA --- */}
-                {/* Adjusted margins to prevent overlap on fluid widths */}
                 <div className="relative flex-grow w-full flex items-center justify-center p-4 sm:p-8 mt-2 mb-[-20px]">
                     {!hasData ? (
                         <div className="flex flex-col items-center opacity-20 py-20">
@@ -81,14 +79,12 @@ export default function EMIGauge() {
                                 <div className="w-full h-full max-w-[280px] max-h-[280px]">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <PieChart>
-                                            {/* Background Track */}
                                             <Pie
                                                 data={[{ value: 1 }]}
                                                 cx="50%" cy="50%" innerRadius="75%" outerRadius="95%"
                                                 dataKey="value" stroke="none" isAnimationActive={false}
                                                 fill={isDark ? 'rgba(255,255,255,0.05)' : '#F1F5F9'}
                                             />
-                                            {/* Actual Data */}
                                             <Pie
                                                 data={chartData}
                                                 cx="50%" cy="50%" startAngle={90} endAngle={450}

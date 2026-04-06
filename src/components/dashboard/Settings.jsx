@@ -45,7 +45,6 @@ export default function Settings() {
         ));
     };
 
-    // Styling Tokens
     const itemBg = isDark ? 'rgba(255, 255, 255, 0.03)' : '#ffffff';
     const borderColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
     const textColor = isDark ? '#f0f0f0' : '#1a1a1a';
@@ -63,7 +62,6 @@ export default function Settings() {
 
     return (
         <div className="w-full min-h-screen p-4 md:p-8 lg:p-10 transition-colors duration-500 overflow-x-hidden">
-            {/* Removed max-w-7xl to let it fill the screen */}
             <div className="w-full mx-auto">
 
                 <header className="mb-10">

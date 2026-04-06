@@ -21,7 +21,6 @@ export default function Topbar({ onRoleChange }) {
         transition: 'all 0.3s ease',
     };
 
-    // New: Dynamic style for when the search bar is active
     const searchActiveStyle = isSearchFocused ? {
         border: `1px solid rgba(${accent.rgb}, 0.5)`,
         boxShadow: `0 0 0 1px rgba(${accent.rgb}, 0.2), ${islandStyle.boxShadow}`,

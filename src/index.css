@@ -63,15 +63,12 @@ body {
 @tailwind components;
 @tailwind utilities;
 
-/* Dark theme base styles */
 body {
   background-color: #0a0a0a;
   color: #e2e8f0;
   overflow-x: hidden;
-  /* Prevents horizontal jitter during animation */
 }
 
-/* 🔥 PERFORMANCE-OPTIMIZED TRANSITION */
 .page-anim {
   animation: premiumEnter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
   will-change: transform, opacity;
@@ -90,7 +87,6 @@ body {
   }
 }
 
-/* 🧊 HIDE SCROLLBAR UTILITY */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

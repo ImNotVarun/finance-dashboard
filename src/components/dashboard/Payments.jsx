@@ -1,13 +1,22 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion'; // 1. Import Framer Motion
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useDashboardStore, ACCENTS } from '../../store/useDashboardStore';
 
 export default function Payments() {
     const [billing, setBilling] = useState('yearly');
+    const [isMobile, setIsMobile] = useState(false);
     const { role, theme } = useDashboardStore();
 
     const isDark = theme === 'dark';
     const accent = ACCENTS[role];
+
+    // --- SCREEN SIZE DETECTION ---
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile(); // Initial check
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const plans = [
         {
@@ -16,7 +25,7 @@ export default function Payments() {
             price: 15,
             features: ['Up to 5 wallets', 'Basic portfolio tracking', 'Transaction history overview', 'Support 24/7'],
             button: 'Upgrade',
-            side: 'left' // Directional metadata
+            side: 'left'
         },
         {
             id: 'growth',
@@ -37,8 +46,15 @@ export default function Payments() {
         },
     ];
 
-    // --- ANIMATION VARIANTS ---
+    // --- ANIMATION VARIANTS (CONDITIONAL) ---
     const getVariants = (side) => {
+        if (isMobile) {
+            return {
+                hidden: { opacity: 1, x: 0, y: 0, scale: 1 },
+                visible: { opacity: 1, x: 0, y: 0, scale: 1 }
+            };
+        }
+
         if (side === 'center') {
             return {
                 hidden: { opacity: 0, y: -100 },
@@ -49,7 +65,7 @@ export default function Payments() {
                 }
             };
         }
-        // Side cards emerge from center
+
         return {
             hidden: { opacity: 0, x: side === 'left' ? 100 : -100, scale: 0.9 },
             visible: {
@@ -57,7 +73,7 @@ export default function Payments() {
                 x: 0,
                 scale: 1,
                 transition: {
-                    delay: 0.5, // Wait for center card to land
+                    delay: 0.5,
                     type: "spring",
                     stiffness: 80,
                     damping: 20,
@@ -71,7 +87,7 @@ export default function Payments() {
         <div className="w-full flex flex-col items-center overflow-hidden pb-20">
             {/* HEADER */}
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="text-center mb-12 md:mb-16"
             >
@@ -113,11 +129,11 @@ export default function Payments() {
                             variants={getVariants(plan.side)}
                             initial="hidden"
                             whileInView="visible"
-                            viewport={{ once: false, amount: 0.3 }}
-                            whileHover={{ y: -10, transition: { duration: 0.2 } }}
+                            viewport={{ once: true, amount: 0.1 }}
+                            whileHover={!isMobile ? { y: -10, transition: { duration: 0.2 } } : {}} hover on mobile
                             className={`relative rounded-[2.5rem] p-8 flex flex-col justify-between transition-colors
                                 ${isHighlight
-                                    ? 'bg-black text-white scale-105 z-20 shadow-2xl'
+                                    ? 'bg-black text-white md:scale-105 z-20 shadow-2xl'
                                     : isDark
                                         ? 'bg-white/5 backdrop-blur-xl text-white/90 z-10 border border-white/10'
                                         : 'bg-white text-black border border-black/5 shadow-xl z-10'
@@ -126,7 +142,7 @@ export default function Payments() {
                         >
                             {isHighlight && (
                                 <motion.div
-                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    initial={isMobile ? { opacity: 1 } : { opacity: 0, scale: 0.5 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.8 }}
                                     className="absolute -top-4 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full bg-white text-black shadow-lg"
